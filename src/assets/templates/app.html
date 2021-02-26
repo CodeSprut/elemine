@@ -17,7 +17,17 @@
       const childProcess = require("child_process");
       const { promises: fs } = require("fs");
 
-      const gameDirectory = "C:\\Users\\codesprut\\Desktop\\minecraft-client";
+      const selectedClient = "survival";
+      const projectDirectory = "C:\\Users\\codesprut\\Desktop\\clients";
+      const gameDirectory = projectDirectory + "\\" + selectedClient;
+
+      const getClientInfo = async (path, clientName) => {
+        const fileData = await fs.readFile(`${path}\\${clientName}.json`, {
+          encoding: "utf-8",
+        });
+
+        return JSON.parse(fileData);
+      };
 
       const getLibrariesList = async path => {
         const entries = await fs.readdir(path, { withFileTypes: true });
@@ -35,56 +45,62 @@
         return files;
       };
 
-      const prepareArguments = async (userData, gameDirectory) => {
+      const prepareArguments = async (userData, clientData, options) => {
+        const { gameDirectory, fullscreen = false } = options;
         const librariesPath = gameDirectory + "\\libraries";
         const jarList = await getLibrariesList(librariesPath);
 
-        jarList.push(gameDirectory + "\\minecraft.jar");
+        jarList.push(gameDirectory + "\\client.jar");
 
-        return [
+        const params = [
           "-Xmn128M",
           "-Xms2G",
           "-Xmx2G",
           `-Djava.library.path=${gameDirectory}\\natives`,
           "-cp",
           jarList.join(";"),
-          "net.minecraft.launchwrapper.Launch",
+          clientData.className,
           "--username",
           userData.username,
           "--version",
-          "vanila",
+          clientData.version,
           "--gameDir",
           gameDirectory,
           "--assetsDir",
           `${gameDirectory}\\assets`,
           "--assetIndex",
-          "1.16",
+          clientData.assetsIndex,
           "--uuid",
           userData.uuid,
           "--accessToken",
           userData.accessToken,
           "--userType",
           "offline",
-          "--versionType",
-          "release",
           "--fullscreen",
           "true",
-          "--tweakClass",
-          "optifine.OptiFineTweaker",
+          ...clientData.arguments,
         ];
+
+        if (fullscreen) {
+          params.push("--fullscreen");
+          params.push("true");
+        }
+
+        return params;
       };
 
       launchButton.onclick = async () => {
         launchButton.disabled = true;
 
-        const processArguments = await prepareArguments(
-          {
-            username: "codesprut",
-            uuid: "TmlsbA==",
-            accessToken: "dummy_token",
-          },
+        const userData = {
+          username: "codesprut",
+          uuid: "TmlsbA==",
+          accessToken: "dummy_token",
+        };
+        const clientData = await getClientInfo(gameDirectory, selectedClient);
+        const processArguments = await prepareArguments(userData, clientData, {
           gameDirectory,
-        );
+        });
 
         const gameProcess = childProcess.spawn("java", processArguments, {
           cwd: gameDirectory,
