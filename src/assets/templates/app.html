@@ -48,7 +48,7 @@
           `-Djava.library.path=${gameDirectory}\\natives`,
           "-cp",
           jarList.join(";"),
-          "net.minecraft.client.main.Main",
+          "net.minecraft.launchwrapper.Launch",
           "--username",
           userData.username,
           "--version",
@@ -67,6 +67,10 @@
           "offline",
           "--versionType",
           "release",
+          "--fullscreen",
+          "true",
+          "--tweakClass",
+          "optifine.OptiFineTweaker",
         ];
       };
 
@@ -87,8 +91,8 @@
           detached: true,
         });
 
-        gameProcess.stdout.on("data", console.log);
-        gameProcess.stderr.on("data", console.error);
+        gameProcess.stdout.on("data", data => console.log(data.toString()));
+        gameProcess.stderr.on("data", data => console.error(data.toString()));
 
         gameProcess.on("close", code => {
           launchButton.disabled = false;
