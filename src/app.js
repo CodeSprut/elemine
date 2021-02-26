@@ -1,5 +1,4 @@
 const { app, BrowserWindow } = require("electron");
-require("ejs-electron");
 
 let win;
 
@@ -26,7 +25,7 @@ const createWindow = () => {
 
   win.webContents.openDevTools({ mode: "detach" });
 
-  win.loadFile("./src/assets/templates/app.ejs");
+  win.loadFile("./src/assets/templates/app.html");
 
   win.removeMenu();
 
