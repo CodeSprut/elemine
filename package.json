@@ -1,0 +1,28 @@
+{
+  "name": "elemine",
+  "version": "1.0.0",
+  "author": "codesprut",
+  "license": "MIT",
+  "description": "Electron minecraft launcher",
+  "main": "src/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron .",
+    "dist": "cross-env ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES=true node build.js",
+    "dist:win": "npm run dist -- WINDOWS",
+    "dist:mac": "npm run dist -- MAC",
+    "dist:linux": "npm run dist -- LINUX"
+  },
+  "engines": {
+    "node": "14.x.x"
+  },
+  "dependencies": {
+    "electron": "^11.3.0"
+  },
+  "devDependencies": {
+    "electron-builder": "^22.9.1",
+    "husky": "^5.1.1",
+    "lint-staged": "^10.5.4",
+    "prettier": "^2.2.1"
+  }
+}
