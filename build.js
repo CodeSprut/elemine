@@ -27,7 +27,7 @@ builder
       productName: "Elemine",
       artifactName: "${productName}Setup.${ext}",
       copyright: "Copyright © 2021 Codesprut",
-      files: ["src", "node_modules", "LICENSE"],
+      files: ["src", "LICENSE"],
       win: {
         target: [
           {

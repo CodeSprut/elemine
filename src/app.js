@@ -1,4 +1,5 @@
 const { app, BrowserWindow } = require("electron");
+const { devMode } = require("./environment");
 
 let win;
 
@@ -13,17 +14,18 @@ const createWindow = () => {
     maximizable: false,
     frame: false,
     webPreferences: {
-      // preload: path.join(__dirname, "app", "assets", "js", "preloader.js"),
       nodeIntegration: true,
       contextIsolation: false,
       enableRemoteModule: true,
       worldSafeExecuteJavaScript: true,
-      devTools: true,
+      devTools: devMode,
     },
     backgroundColor: "#171614",
   });
 
-  win.webContents.openDevTools({ mode: "detach" });
+  if (devMode) {
+    win.webContents.openDevTools({ mode: "detach" });
+  }
 
   win.loadFile("./src/assets/templates/app.html");
 
