@@ -23,7 +23,7 @@ builder
       : getCurrentPlatform()
     ).createTarget(),
     config: {
-      appId: "com.elemine.app",
+      appId: "com.electron.elemine",
       productName: "Elemine",
       artifactName: "${productName}Setup.${ext}",
       copyright: "Copyright © 2021 Codesprut",
