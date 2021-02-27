@@ -1,6 +1,9 @@
 module.exports = {
-  projectDomain: "https://elemine.example",
-  launchServer: "/elemine",
+  projectDomain: "http://minecraft.loc",
+  server: {
+    path: "",
+    port: 80,
+  },
   clientsDir: "/clients",
   launcherDir: "/launcher",
 };
