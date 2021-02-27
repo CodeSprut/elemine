@@ -1,3 +1,6 @@
 module.exports = {
-  websiteUrl: "https://giftseeker.ru",
+  projectDomain: "https://elemine.example",
+  launchServer: "/elemine",
+  clientsDir: "/clients",
+  launcherDir: "/launcher",
 };

@@ -1,5 +1,5 @@
 const builder = require("electron-builder");
-const { websiteUrl } = require("./src/config");
+const { projectDomain, launcherDir } = require("./src/config");
 const Platform = builder.Platform;
 
 function getCurrentPlatform() {
@@ -64,7 +64,7 @@ builder
       asar: true,
       publish: {
         provider: "generic",
-        url: websiteUrl + "/launcher",
+        url: projectDomain + launcherDir,
       },
     },
   })
