@@ -1,0 +1,12 @@
+{
+  "name": "elemine-server",
+  "version": "1.0.0",
+  "author": "codesprut",
+  "license": "MIN",
+  "description": "Elemine launcher server",
+  "main": "run.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node start.js"
+  }
+}
