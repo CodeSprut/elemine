@@ -31,7 +31,7 @@ const prepareArguments = async (userData, clientData, options) => {
   const librariesPath = gameDirectory + "\\libraries";
   const jarList = await getLibrariesList(librariesPath);
 
-  jarList.push(gameDirectory + "\\client.jar");
+  jarList.push(gameDirectory + "\\minecraft.jar");
 
   const params = [
     "-Xmn128M",
@@ -70,10 +70,9 @@ const prepareArguments = async (userData, clientData, options) => {
   return params;
 };
 
-const run = async userData => {
-  const selectedClient = "survival";
-  const gameDirectory = execPath + "\\" + selectedClient;
-  const clientData = await getClientInfo(gameDirectory, selectedClient);
+const run = async (userData, clientName) => {
+  const gameDirectory = execPath + "\\" + clientName;
+  const clientData = await getClientInfo(gameDirectory, clientName);
   const processArguments = await prepareArguments(userData, clientData, {
     gameDirectory,
   });
@@ -89,6 +88,8 @@ const run = async userData => {
   gameProcess.on("close", code => {
     console.log("Process closed with code:", code);
   });
+
+  return gameProcess;
 };
 
 module.exports = {
