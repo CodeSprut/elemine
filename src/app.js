@@ -1,45 +1,13 @@
-const { app, BrowserWindow } = require("electron");
-const { devMode } = require("./environment");
+const { app, ipcMain } = require("electron");
+const { createWindow } = require("./window");
+const processBuilder = require("./process-builder");
 
-let win;
+let window;
 
-const createWindow = () => {
-  win = new BrowserWindow({
-    width: 260,
-    height: 400,
-    show: false,
-    center: true,
-    resizable: true,
-    fullscreenable: false,
-    maximizable: false,
-    frame: false,
-    webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false,
-      enableRemoteModule: true,
-      worldSafeExecuteJavaScript: true,
-      devTools: devMode,
-    },
-    backgroundColor: "#171614",
+app.on("ready", () => {
+  window = createWindow();
+
+  ipcMain.on("run-game", (event, userData) => {
+    processBuilder.run(userData);
   });
-
-  if (devMode) {
-    win.webContents.openDevTools({ mode: "detach" });
-  }
-
-  win.loadFile("./src/assets/templates/app.html");
-
-  win.removeMenu();
-
-  win.once("ready-to-show", () => {
-    win.show();
-    win.focus();
-  });
-
-  win.on("closed", () => {
-    win = null;
-    if (process.platform !== "darwin") app.quit();
-  });
-};
-
-app.on("ready", createWindow);
+});

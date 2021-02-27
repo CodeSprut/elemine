@@ -74,17 +74,22 @@ a:hover {
   line-height: 40px;
 }
 
+.page-content {
+  padding-top: 100px;
+}
+
+#nickname {
+  width: 140px;
+  display: block;
+  margin: 20px auto;
+}
+
 #launch-button {
   width: 100px;
   height: 30px;
   line-height: 30px;
   display: block;
-  margin: auto;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  margin: 0 auto;
   cursor: pointer;
 }
 

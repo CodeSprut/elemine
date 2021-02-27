@@ -10,113 +10,22 @@
       <div class="window-button closer" onclick="window.close();">&times;</div>
     </div>
     <div class="page-content">
-      <label>
-        Никнейм
-        <input id="nickname" type="text" placeholder="Player" />
-      </label>
-      <button id="launch-button">Играть</button>
+      <form id="run-game">
+        <input id="nickname" type="text" required placeholder="Никнейм" />
+        <button id="launch-button">Играть</button>
+      </form>
     </div>
     <script>
-      const launchButton = document.querySelector("#launch-button");
-      const childProcess = require("child_process");
-      const { promises: fs } = require("fs");
+      const { ipcRenderer } = require("electron");
+      const runGameForm = document.querySelector("form#run-game");
 
-      const selectedClient = "survival";
-      const projectDirectory = "C:\\Users\\codesprut\\Desktop\\clients";
-      const gameDirectory = projectDirectory + "\\" + selectedClient;
+      runGameForm.onsubmit = ev => {
+        ev.preventDefault();
 
-      const getClientInfo = async (path, clientName) => {
-        const fileData = await fs.readFile(`${path}\\${clientName}.json`, {
-          encoding: "utf-8",
-        });
-
-        return JSON.parse(fileData);
-      };
-
-      const getLibrariesList = async path => {
-        const entries = await fs.readdir(path, { withFileTypes: true });
-
-        const files = entries
-          .filter(file => !file.isDirectory())
-          .map(file => path + "\\" + file.name);
-
-        const folders = entries.filter(folder => folder.isDirectory());
-
-        for (const folder of folders) {
-          files.push(...(await getLibrariesList(`${path}\\${folder.name}`)));
-        }
-
-        return files;
-      };
-
-      const prepareArguments = async (userData, clientData, options) => {
-        const { gameDirectory, fullscreen = false } = options;
-        const librariesPath = gameDirectory + "\\libraries";
-        const jarList = await getLibrariesList(librariesPath);
-
-        jarList.push(gameDirectory + "\\client.jar");
-
-        const params = [
-          "-Xmn128M",
-          "-Xms2G",
-          "-Xmx2G",
-          `-Djava.library.path=${gameDirectory}\\natives`,
-          "-cp",
-          jarList.join(";"),
-          clientData.className,
-          "--username",
-          userData.username,
-          "--version",
-          clientData.version,
-          "--gameDir",
-          gameDirectory,
-          "--assetsDir",
-          `${gameDirectory}\\assets`,
-          "--assetIndex",
-          clientData.assetsIndex,
-          "--uuid",
-          userData.uuid,
-          "--accessToken",
-          userData.accessToken,
-          "--userType",
-          "offline",
-          "--fullscreen",
-          "true",
-          ...clientData.arguments,
-        ];
-
-        if (fullscreen) {
-          params.push("--fullscreen");
-          params.push("true");
-        }
-
-        return params;
-      };
-
-      launchButton.onclick = async () => {
-        launchButton.disabled = true;
-
-        const userData = {
-          username: "codesprut",
+        ipcRenderer.send("run-game", {
+          username: document.querySelector("input#nickname").value,
           uuid: "TmlsbA==",
           accessToken: "dummy_token",
-        };
-        const clientData = await getClientInfo(gameDirectory, selectedClient);
-        const processArguments = await prepareArguments(userData, clientData, {
-          gameDirectory,
-        });
-
-        const gameProcess = childProcess.spawn("java", processArguments, {
-          cwd: gameDirectory,
-          detached: true,
-        });
-
-        gameProcess.stdout.on("data", data => console.log(data.toString()));
-        gameProcess.stderr.on("data", data => console.error(data.toString()));
-
-        gameProcess.on("close", code => {
-          launchButton.disabled = false;
-          console.log("Process closed with code:", code);
         });
       };
     </script>
