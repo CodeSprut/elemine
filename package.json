@@ -8,7 +8,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
-    "dist": "cross-env ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES=true node build.js",
+    "front:serve": "vue-cli-service serve src/front/main.js",
+    "front:build": "vue-cli-service build src/front/main.js",
+    "dist": "npm run front:build && cross-env ELECTRON_BUILDER_ALLOW_UNRESOLVED_DEPENDENCIES=true node build.js",
     "dist:win": "npm run dist -- WINDOWS",
     "dist:mac": "npm run dist -- MAC",
     "dist:linux": "npm run dist -- LINUX"
@@ -17,11 +19,24 @@
     "node": "14.x.x"
   },
   "devDependencies": {
+    "@vue/cli": "^4.5.11",
+    "@vue/cli-plugin-babel": "^4.5.11",
+    "@vue/cli-plugin-eslint": "^4.5.11",
+    "@vue/cli-service": "^4.5.11",
+    "@vue/compiler-sfc": "^3.0.6",
     "cross-env": "^7.0.3",
+    "electron": "^11.3.0",
     "electron-builder": "^22.9.1",
+    "eslint": "^7.20.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-vue": "^7.6.0",
     "husky": "^5.1.1",
     "lint-staged": "^10.5.4",
     "prettier": "^2.2.1",
-    "electron": "^11.3.0"
+    "sass": "^1.32.8",
+    "sass-loader": "^10.1.1",
+    "vue": "^3.0.6",
+    "vue-router": "^4.0.4"
   }
 }

@@ -1,0 +1,18 @@
+{
+  "root": true,
+  "extends": [
+    "eslint:recommended",
+    "plugin:vue/base",
+    "plugin:prettier/recommended"
+  ],
+  "env": {
+    "es2017": true,
+    "jest": true,
+    "node": true,
+    "browser": true
+  },
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": "error"
+  }
+}

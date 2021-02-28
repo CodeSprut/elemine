@@ -2,8 +2,8 @@ const childProcess = require("child_process");
 const { promises: fs } = require("fs");
 const { execPath } = require("./environment");
 
-const getClientInfo = async (path, clientName) => {
-  const fileData = await fs.readFile(`${path}\\${clientName}.json`, {
+const getClientInfo = async path => {
+  const fileData = await fs.readFile(`${path}\\minecraft.json`, {
     encoding: "utf-8",
   });
 
@@ -72,7 +72,7 @@ const prepareArguments = async (userData, clientData, options) => {
 
 const run = async (userData, clientName) => {
   const gameDirectory = execPath + "\\" + clientName;
-  const clientData = await getClientInfo(gameDirectory, clientName);
+  const clientData = await getClientInfo(gameDirectory);
   const processArguments = await prepareArguments(userData, clientData, {
     gameDirectory,
   });

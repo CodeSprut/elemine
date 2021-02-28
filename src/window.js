@@ -7,7 +7,7 @@ const createWindow = () => {
     height: 400,
     show: false,
     center: true,
-    resizable: true,
+    resizable: false,
     fullscreenable: false,
     maximizable: false,
     frame: false,
@@ -23,9 +23,10 @@ const createWindow = () => {
 
   if (devMode) {
     window.webContents.openDevTools({ mode: "detach" });
+    window.loadURL("http://localhost:8080/");
+  } else {
+    window.loadFile("./dist/front/index.html");
   }
-
-  window.loadFile("./src/assets/templates/app.html");
 
   window.removeMenu();
 

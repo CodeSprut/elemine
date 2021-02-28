@@ -1,3 +1,20 @@
+<template>
+  <div class="frame">
+    <div class="title">Elemine</div>
+    <div class="window-button closer" onclick="window.close()">&times;</div>
+  </div>
+  <div class="page-content">
+    <router-view />
+  </div>
+</template>
+
+<script>
+export default {
+  name: "App",
+};
+</script>
+
+<style lang="scss" rel="stylesheet/scss">
 html {
   position: relative;
   width: 100%;
@@ -96,3 +113,4 @@ a:hover {
 #launch-button[disabled] {
   cursor: default;
 }
+</style>
