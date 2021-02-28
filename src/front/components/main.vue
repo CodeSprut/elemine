@@ -1,13 +1,19 @@
 <template>
   <form v-on:submit="runGame" id="run-game">
     <div class="status-bar">{{ currentStatus }}</div>
-    <select v-model="selectedServer">
+    <select :disabled="formDisabled" v-model="selectedServer">
       <option v-for="server in serversList" v-bind:value="server.name">
         {{ server.name }}
       </option>
     </select>
-    <input id="nickname" type="text" required placeholder="Никнейм" />
-    <button id="launch-button">Играть</button>
+    <input
+      id="nickname"
+      type="text"
+      required
+      placeholder="Никнейм"
+      :disabled="formDisabled"
+    />
+    <button id="launch-button" :disabled="formDisabled">Играть</button>
   </form>
 </template>
 
@@ -21,6 +27,7 @@ export default {
       currentStatus: "Подключение...",
       selectedServer: null,
       serversList: [],
+      formDisabled: true,
     };
   },
   async mounted() {
@@ -28,10 +35,14 @@ export default {
       const client = new WebSocket(wsHost);
 
       client.onopen = () => {
+        this.formDisabled = false;
         this.currentStatus = "Соединение установлено";
       };
 
-      // client.onclose = event => {};
+      client.onclose = () => {
+        this.formDisabled = true;
+        this.currentStatus = "Соединение разорвано";
+      };
 
       client.onmessage = ({ data }) => {
         const message = JSON.parse(data);
@@ -44,6 +55,7 @@ export default {
       };
 
       client.onerror = () => {
+        this.formDisabled = true;
         this.currentStatus = "Ошибка подключения к серверу";
       };
     });
