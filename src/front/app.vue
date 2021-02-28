@@ -30,14 +30,6 @@ body {
   height: 100%;
   display: grid;
   grid-template-rows: 40px auto;
-  /*position: relative;*/
-  /*width: 100%;*/
-  /*height: 100%;*/
-  /*border: 1px solid #28313e;*/
-  /*border-top: none;*/
-  /*box-sizing: border-box;*/
-  /*display: flex;*/
-  /*flex-direction: column;*/
 }
 
 * {
@@ -68,49 +60,26 @@ a:hover {
   display: grid;
   grid-template-columns: auto 40px;
   -webkit-app-region: drag;
-}
 
-.frame .title {
-  font-size: 14px;
-  line-height: 40px;
-  padding-left: 10px;
-}
+  .title {
+    font-size: 14px;
+    line-height: 40px;
+    padding-left: 10px;
+  }
 
-.frame .window-button {
-  cursor: pointer;
-  font-size: 20px;
-  -webkit-app-region: none;
-}
+  .window-button {
+    cursor: pointer;
+    font-size: 20px;
+    -webkit-app-region: none;
+  }
 
-.frame .window-button:hover {
-  color: lightblue;
-}
+  .window-button:hover {
+    color: lightblue;
+  }
 
-.frame .window-button.closer {
-  text-align: center;
-  line-height: 40px;
-}
-
-.page-content {
-  padding-top: 100px;
-}
-
-#nickname {
-  width: 140px;
-  display: block;
-  margin: 20px auto;
-}
-
-#launch-button {
-  width: 100px;
-  height: 30px;
-  line-height: 30px;
-  display: block;
-  margin: 0 auto;
-  cursor: pointer;
-}
-
-#launch-button[disabled] {
-  cursor: default;
+  .window-button.closer {
+    text-align: center;
+    line-height: 40px;
+  }
 }
 </style>
